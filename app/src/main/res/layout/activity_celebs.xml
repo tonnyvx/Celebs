@@ -9,9 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".CelebsActivity">
 
-    <ListView
-        android:id="@+id/list_celebs"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        <fragment
+            android:id="@+id/fragment_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="antonioneto.unibratec.com.br.celebinfo.CelebListFragment"></fragment>
+
 </RelativeLayout>

@@ -23,50 +23,22 @@ public class DetailCelebActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_celeb);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String name        = getIntent().getStringExtra("name");
+        String age         = getIntent().getStringExtra("age");
+        String birth_place = getIntent().getStringExtra("birth_place");
+        String birth_sign  = getIntent().getStringExtra("birth_sign");
+        String birth_year  = getIntent().getStringExtra("birth_year");
+        String occupation  = getIntent().getStringExtra("occupation");
+        String photo_url   = getIntent().getStringExtra("photo_url");
+        String birthday    = getIntent().getStringExtra("birthday");
+        DetailCelebFragment dcf = DetailCelebFragment.newInstance(name,age,birth_place,birth_sign,birth_year,occupation,photo_url,birthday);
 
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String age = intent.getStringExtra("age");
-        String birth_place = intent.getStringExtra("birth_place");
-        String birth_sign = intent.getStringExtra("birth_sign");
-        String birth_year = intent.getStringExtra("birth_year");
-        String occupation = intent.getStringExtra("occupation");
-        String photo_url = intent.getStringExtra("photo_url");
-        String birthday = intent.getStringExtra("birthday");
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_celeb_detail,dcf,"detail").commit();
 
-        TextView txtName = (TextView)findViewById(R.id.name);
-        TextView txtAge = (TextView)findViewById(R.id.age);
-        TextView txtBirth_place = (TextView)findViewById(R.id.birth_place);
-        TextView txtBirth_sign = (TextView)findViewById(R.id.birth_sign);
-        TextView txtBirth_year = (TextView)findViewById(R.id.birth_year);
-        TextView txtOccupation = (TextView)findViewById(R.id.occupation);
-        TextView txtBirthday = (TextView)findViewById(R.id.birthday);
 
-        txtName.setText(name);
-        txtAge.setText(age);
-        txtBirth_place.setText(birth_place);
-        txtBirth_sign.setText(birth_sign);
-        txtBirth_year.setText(birth_year);
-        txtOccupation.setText(occupation);
-        txtBirthday.setText(birthday);
 
-        ImageView imageView =(ImageView)findViewById(R.id.image_poster);
-        Picasso.with(this).load(photo_url).into(imageView);
 
-        getSupportActionBar().setTitle(name);
     }
-
 }
