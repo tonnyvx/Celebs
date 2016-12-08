@@ -39,7 +39,7 @@ public class CelebsActivity extends AppCompatActivity implements OnCelebClick
 
     @Override
     public void OnCelebClick(Celeb celeb) {
-
+        if(getResources().getBoolean(R.bool.phone)){
         Intent it = new Intent(this, DetailCelebActivity.class);
         it.putExtra("name", celeb.name);
         it.putExtra("age", celeb.age);
@@ -47,9 +47,26 @@ public class CelebsActivity extends AppCompatActivity implements OnCelebClick
         it.putExtra("birth_sign", celeb.birth_sign);
         it.putExtra("birth_year", celeb.birth_year);
         it.putExtra("occupation", celeb.occupation);
-        it.putExtra("photo_url", celeb.photo_url);
         it.putExtra("birthday", celeb.birthday);
+        it.putExtra("photo_url", celeb.photo_url);
         startActivity(it);
+        }else {
+            DetailCelebFragment dcf = DetailCelebFragment.newInstance(celeb.name,celeb.age,celeb.birth_place,celeb.birth_sign,celeb.birth_year,celeb.occupation,celeb.birthday,celeb.photo_url);
+
+            /*String name        = getIntent().getStringExtra("name");
+            String age         = getIntent().getStringExtra("age");
+            String birth_place = getIntent().getStringExtra("birth_place");
+            String birth_sign  = getIntent().getStringExtra("birth_sign");
+            String birth_year  = getIntent().getStringExtra("birth_year");
+            String occupation  = getIntent().getStringExtra("occupation");
+            String birthday    = getIntent().getStringExtra("birthday");
+            String photo_url   = getIntent().getStringExtra("photo_url");
+            DetailCelebFragment dcf = DetailCelebFragment.newInstance(name,age,birth_place,birth_sign,birth_year,occupation,birthday,photo_url);*/
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.content_celeb_detail,dcf,"detail").
+                    commit();
+
        /* Bundle bundle = new Bundle();
         bundle.putString("name", celeb.name);
         bundle.putString("age", celeb.age);
@@ -61,6 +78,6 @@ public class CelebsActivity extends AppCompatActivity implements OnCelebClick
         bundle.putString("birthday", celeb.birthday);
         DetailCelebFragment dcf = new DetailCelebFragment();
         dcf.setArguments(bundle);*/
-
+        }
     }
 }

@@ -29,7 +29,7 @@ public class DetailCelebFragment extends Fragment {
     ImageView imageView     ;
 
     public static DetailCelebFragment newInstance(String name, String age, String birth_place, String birth_sign, String birth_year, String occupation, String birthday, String image_poster){
-    Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putString("name",name);
         bundle.putString("age",age);
         bundle.putString("birth_place",birth_place);
@@ -53,21 +53,22 @@ public class DetailCelebFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detail_celeb, container, false);
+        if(getResources().getBoolean(R.bool.phone)) {
+            Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
+            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        }
         txtName        = (TextView)view.findViewById(R.id.name);
         txtAge         = (TextView)view.findViewById(R.id.age);
         txtBirth_place = (TextView)view.findViewById(R.id.birth_place);
@@ -84,9 +85,8 @@ public class DetailCelebFragment extends Fragment {
         String birth_sign  =  getArguments().getString("birth_sign");
         String birth_year  =  getArguments().getString("birth_year");
         String occupation  =  getArguments().getString("occupation");
-        String photo_url   =  getArguments().getString("photo_url");
         String birthday    =  getArguments().getString("birthday");
-
+        String photo_url   =  getArguments().getString("image_poster");
 
 
         /*Intent intent = getArguments();
@@ -110,10 +110,11 @@ public class DetailCelebFragment extends Fragment {
         txtBirthday.setText(birthday);
         Picasso.with(getActivity()).load(photo_url).into(imageView);
 
-      /*  CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout)getView()
-                .findViewById(R.id.toolbar_layout);
-        appBarLayout.setTitle(name);*/
-
+        if (getResources().getBoolean(R.bool.phone)) {
+            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) view
+                    .findViewById(R.id.toolbar_layout);
+            appBarLayout.setTitle(name);
+        }
 
 /*
         getView().findViewById(R.id.toolbar_layout);

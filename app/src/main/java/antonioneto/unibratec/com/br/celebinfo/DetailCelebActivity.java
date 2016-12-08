@@ -31,10 +31,10 @@ public class DetailCelebActivity extends AppCompatActivity{
         String birth_sign  = getIntent().getStringExtra("birth_sign");
         String birth_year  = getIntent().getStringExtra("birth_year");
         String occupation  = getIntent().getStringExtra("occupation");
-        String photo_url   = getIntent().getStringExtra("photo_url");
         String birthday    = getIntent().getStringExtra("birthday");
-        DetailCelebFragment dcf = DetailCelebFragment.newInstance(name,age,birth_place,birth_sign,birth_year,occupation,photo_url,birthday);
-
+        String photo_url   = getIntent().getStringExtra("photo_url");
+        DetailCelebFragment dcf = DetailCelebFragment.newInstance(name,age,birth_place,birth_sign,birth_year,occupation,birthday,photo_url);
+        //Carregando o Fragment em tempo de execução
         getSupportFragmentManager().beginTransaction().replace(R.id.content_celeb_detail,dcf,"detail").commit();
 
 
