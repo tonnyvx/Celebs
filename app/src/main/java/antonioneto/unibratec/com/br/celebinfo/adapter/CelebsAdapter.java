@@ -1,4 +1,4 @@
-package ui.adapter;
+package antonioneto.unibratec.com.br.celebinfo.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import Model.Celeb;
+import antonioneto.unibratec.com.br.celebinfo.model.Celeb;
 import antonioneto.unibratec.com.br.celebinfo.R;
 
 /**
@@ -39,10 +39,10 @@ public class CelebsAdapter extends ArrayAdapter<Celeb>{
         TextView  txtName = (TextView) convertView.findViewById(R.id.item_celeb_name);
         TextView  txtOcuppation = (TextView) convertView.findViewById(R.id.item_celeb_occupation);
 
-        Picasso.with(getContext()).load(celeb.photo_url)
+        Picasso.with(getContext()).load(celeb.getPhoto_url())
                 .into(imgPoster);
-        txtName.setText(celeb.name);
-        txtOcuppation.setText(celeb.occupation);
+        txtName.setText(celeb.getName());
+        txtOcuppation.setText(celeb.getOccupation());
         return convertView;
 
     }

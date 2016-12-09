@@ -1,6 +1,6 @@
 package antonioneto.unibratec.com.br.celebinfo;
 
-import Model.Celeb;
+import antonioneto.unibratec.com.br.celebinfo.model.Celeb;
 
 /**
  * Created by AntonioNeto on 07/12/2016.

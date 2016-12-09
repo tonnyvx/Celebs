@@ -1,4 +1,4 @@
-package http;
+package antonioneto.unibratec.com.br.celebinfo.http;
 
 import com.google.gson.Gson;
 
@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-import Model.CelebSearchResult;
+import antonioneto.unibratec.com.br.celebinfo.model.CelebSearchResult;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import Model.Celeb;
+import antonioneto.unibratec.com.br.celebinfo.model.Celeb;
 
 /**
  * Created by AntonioNeto on 03/12/2016.

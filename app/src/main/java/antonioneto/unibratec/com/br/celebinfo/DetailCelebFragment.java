@@ -1,14 +1,13 @@
 package antonioneto.unibratec.com.br.celebinfo;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,118 +16,134 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
+import antonioneto.unibratec.com.br.celebinfo.model.Celeb;
+import antonioneto.unibratec.com.br.celebinfo.database.CelebDao;
+import antonioneto.unibratec.com.br.celebinfo.database.DbEvent;
+
+import static antonioneto.unibratec.com.br.celebinfo.R.id.age;
+import static antonioneto.unibratec.com.br.celebinfo.R.id.birth_place;
+import static antonioneto.unibratec.com.br.celebinfo.R.id.birth_sign;
+import static antonioneto.unibratec.com.br.celebinfo.R.id.birth_year;
+import static antonioneto.unibratec.com.br.celebinfo.R.id.birthday;
+import static antonioneto.unibratec.com.br.celebinfo.R.id.occupation;
+
 
 public class DetailCelebFragment extends Fragment {
-    TextView txtName        ;
-    TextView txtAge         ;
-    TextView txtBirth_place ;
-    TextView txtBirth_sign  ;
-    TextView txtBirth_year  ;
-    TextView txtOccupation  ;
-    TextView txtBirthday    ;
-    ImageView imageView     ;
-
-    public static DetailCelebFragment newInstance(String name, String age, String birth_place, String birth_sign, String birth_year, String occupation, String birthday, String image_poster){
-        Bundle bundle = new Bundle();
-        bundle.putString("name",name);
-        bundle.putString("age",age);
-        bundle.putString("birth_place",birth_place);
-        bundle.putString("birth_sign",birth_sign);
-        bundle.putString("birth_year",birth_year);
-        bundle.putString("occupation",occupation);
-        bundle.putString("birthday",birthday);
-        bundle.putString("image_poster",image_poster);
-        DetailCelebFragment dcf = new DetailCelebFragment();
-        dcf.setArguments(bundle);
-        return dcf;
-    }
+    TextView txtName;
+    TextView txtAge;
+    TextView txtBirth_place;
+    TextView txtBirth_sign;
+    TextView txtBirth_year;
+    TextView txtOccupation;
+    TextView txtBirthday;
+    ImageView imageView;
+    Celeb celeb;
+    FloatingActionButton floatingActionButton;
+    CelebDao celebDao;
+    Celeb celebTemp;
+    CollapsingToolbarLayout appBarLayout;
+    boolean isFavorite;
 
     public DetailCelebFragment() {
 
     }
 
+    public static DetailCelebFragment newInstance(Celeb celeb) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("celeb", celeb);
+
+        DetailCelebFragment dcf = new DetailCelebFragment();
+        dcf.setArguments(bundle);
+        return dcf;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detail_celeb, container, false);
-        if(getResources().getBoolean(R.bool.phone)) {
-            Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                    saveOrRemoveFavorite();
-                    /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();*/
-                }
-            });
+        loadComponents(view);
 
-        }
-        txtName        = (TextView)view.findViewById(R.id.name);
-        txtAge         = (TextView)view.findViewById(R.id.age);
-        txtBirth_place = (TextView)view.findViewById(R.id.birth_place);
-        txtBirth_sign  = (TextView)view.findViewById(R.id.birth_sign);
-        txtBirth_year  = (TextView)view.findViewById(R.id.birth_year);
-        txtOccupation  = (TextView)view.findViewById(R.id.occupation);
-        txtBirthday    = (TextView)view.findViewById(R.id.birthday);
-        imageView      =  (ImageView)view.findViewById(R.id.image_poster);
+        celeb = (Celeb) getArguments().getSerializable("celeb");
 
-
-        String name        =  getArguments().getString("name");
-        String age         =  getArguments().getString("age");
-        String birth_place =  getArguments().getString("birth_place");
-        String birth_sign  =  getArguments().getString("birth_sign");
-        String birth_year  =  getArguments().getString("birth_year");
-        String occupation  =  getArguments().getString("occupation");
-        String birthday    =  getArguments().getString("birthday");
-        String photo_url   =  getArguments().getString("image_poster");
-
-
-        /*Intent intent = getArguments();
-        String name = intent.getStringExtra("name");
-        String age = intent.getStringExtra("age");
-        String birth_place = intent.getStringExtra("birth_place");
-        String birth_sign = intent.getStringExtra("birth_sign");
-        String birth_year = intent.getStringExtra("birth_year");
-        String occupation = intent.getStringExtra("occupation");
-        String photo_url = intent.getStringExtra("photo_url");
-        String birthday = intent.getStringExtra("birthday");
-*/
-
-
-        txtName.setText(name);
-        txtAge.setText(age);
-        txtBirth_place.setText(birth_place);
-        txtBirth_sign.setText(birth_sign);
-        txtBirth_year.setText(birth_year);
-        txtOccupation.setText(occupation);
-        txtBirthday.setText(birthday);
-        Picasso.with(getActivity()).load(photo_url).into(imageView);
+        txtName.setText(celeb.getName());
+        txtAge.setText(celeb.getAge());
+        txtBirth_place.setText(celeb.getBirth_place());
+        txtBirth_sign.setText(celeb.getBirth_sign());
+        txtBirth_year.setText(celeb.getBirth_year());
+        txtOccupation.setText(celeb.getOccupation());
+        txtBirthday.setText(celeb.getBirthday());
+        Picasso.with(getActivity()).load(celeb.getPhoto_url()).into(imageView);
 
         if (getResources().getBoolean(R.bool.phone)) {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) view
                     .findViewById(R.id.toolbar_layout);
-            appBarLayout.setTitle(name);
+            appBarLayout.setTitle(celeb.getName());
         }
 
+        celebDao = new CelebDao(getActivity());
+        celebTemp = celebDao.getCeleb(celeb.getName());
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
-/*
-        getView().findViewById(R.id.toolbar_layout);
-        toolbar.setTitle(name);
-*/
+        if (celebTemp.getName() == null) {
+            changeFloatingButton(false);
+        } else {
+            changeFloatingButton(true);
+        }
 
-       /* if(getResources().getBoolean(R.bool.phone))
-        getSupportActionBar().setTitle(name);
-*/
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveOrRemoveFavorite();
+            }
+        });
+
+
         return view;
     }
 
+    private void changeFloatingButton(boolean isFavorite) {
+        int resource = isFavorite ? R.drawable.ic_favorite_black_24dp : R.drawable.ic_favorite_border_black_24dp;
+        floatingActionButton.setImageResource(resource);
+    }
 
+    public void saveOrRemoveFavorite() {
+        if (TextUtils.isEmpty(celebTemp.getName())) {
+            celebDao.insertCeleb(celeb);
+            changeFloatingButton(true);
+        } else {
+            celebDao.deleteCeleb(celeb.getName());
+            changeFloatingButton(false);
+        }
+
+        EventBus.getDefault().post(new DbEvent());
+    }
+
+    /**
+     * Carrega os componentes de tela.
+     *
+     * @param view Tela a ser carregada os componentes.
+     */
+    void loadComponents(View view) {
+        txtName = (TextView) view.findViewById(R.id.name);
+        txtAge = (TextView) view.findViewById(age);
+        txtBirth_place = (TextView) view.findViewById(birth_place);
+        txtBirth_sign = (TextView) view.findViewById(birth_sign);
+        txtBirth_year = (TextView) view.findViewById(birth_year);
+        txtOccupation = (TextView) view.findViewById(occupation);
+        txtBirthday = (TextView) view.findViewById(birthday);
+        imageView = (ImageView) view.findViewById(R.id.image_poster);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+
+    }
 }
+
+

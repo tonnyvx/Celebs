@@ -1,4 +1,4 @@
-package http;
+package antonioneto.unibratec.com.br.celebinfo.http;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
@@ -6,7 +6,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import java.io.IOException;
 import java.util.List;
 
-import Model.Celeb;
+import antonioneto.unibratec.com.br.celebinfo.model.Celeb;
 
 /**
  * Created by AntonioNeto on 03/12/2016.

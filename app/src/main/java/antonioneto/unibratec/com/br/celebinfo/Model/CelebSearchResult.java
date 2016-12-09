@@ -1,4 +1,4 @@
-package Model;
+package antonioneto.unibratec.com.br.celebinfo.model;
 
 import com.google.gson.annotations.SerializedName;
 

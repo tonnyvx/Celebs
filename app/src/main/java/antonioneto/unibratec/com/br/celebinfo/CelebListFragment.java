@@ -1,7 +1,6 @@
 package antonioneto.unibratec.com.br.celebinfo;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,9 +19,9 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import Model.Celeb;
-import http.CelebsSearchTask;
-import ui.adapter.CelebsAdapter;
+import antonioneto.unibratec.com.br.celebinfo.model.Celeb;
+import antonioneto.unibratec.com.br.celebinfo.http.CelebsSearchTask;
+import antonioneto.unibratec.com.br.celebinfo.adapter.CelebsAdapter;
 
 
 public class CelebListFragment extends Fragment implements

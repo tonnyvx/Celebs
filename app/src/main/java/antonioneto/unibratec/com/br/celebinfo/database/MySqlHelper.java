@@ -1,9 +1,8 @@
-package database;
+package antonioneto.unibratec.com.br.celebinfo.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 
 /**
  * Created by AntonioNeto on 08/12/2016.
@@ -15,7 +14,7 @@ public class MySqlHelper  extends SQLiteOpenHelper {
     private static MySqlHelper  instance;
     private Context ctx;
 
-    private MySqlHelper (Context ctx){
+    public MySqlHelper(Context ctx){
         super(ctx, DB_NAME, null, DB_VERSION);
         this.ctx = ctx;
     }
