@@ -63,8 +63,10 @@ public class DetailCelebFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+
+                    saveOrRemoveFavorite();
+                    /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();*/
                 }
             });
 
@@ -115,6 +117,7 @@ public class DetailCelebFragment extends Fragment {
                     .findViewById(R.id.toolbar_layout);
             appBarLayout.setTitle(name);
         }
+
 
 /*
         getView().findViewById(R.id.toolbar_layout);
